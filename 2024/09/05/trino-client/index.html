@@ -9,7 +9,7 @@
     
     <title>
         
-            trion |
+            trino-client |
         
         Keep Theme
     </title>
@@ -161,7 +161,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        trion
+                        trino-client
                     </div>
                 
 
@@ -189,17 +189,26 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2024-09-05 11:30:47</span>
+                <span class="datetime">2024-09-05 11:19:30</span>
             </span>
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Thu Sep 05 2024 11:30:47 GMT+0800">2024-09-05 11:30:47</span>
+                <span class="datetime" data-updated="Fri Sep 06 2024 00:11:14 GMT+0800">2024-09-06 00:11:14</span>
             </span>
         
 
         
 
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/trino/">trino</a></li>
+                        
+                    
+                </ul>
+            </span>
         
 
         
@@ -220,7 +229,19 @@
                     
 
                     
-                         
+                         <h1>Trino源码学习 Client</h1>
+<p>还是以TpchQueryRunner创建的client为例，其它client（命令行client，启动类io.trino.cli.trion）处理query的流程也类似</p>
+<h2 id="提交查询">提交查询</h2>
+<pre class="mermaid">sequenceDiagram
+StatementClientV1->>QueuedStatementResource:/v1/statement<br> postStatement
+QueuedStatementResource->>queryManager:registerQuery
+queryManager-->>StatementClientV1:QueryResults [nextUri=/v1/statement/queued/....]
+StatementClientV1->>QueuedStatementResource:/v1/statement/queued<br> getStatus</pre>
+<p>AbstractTestingTrinoClient</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//提交sql，并等待sql结束</span></span><br><span class="line"><span class="keyword">public</span> ResultWithQueryId&lt;T&gt; <span class="title function_">execute</span><span class="params">(Session session, <span class="meta">@Language(&quot;SQL&quot;)</span> String sql)</span></span><br><span class="line">            <span class="keyword">throws</span> QueryFailedException</span><br><span class="line">    &#123;</span><br><span class="line">        ResultsSession&lt;T&gt; resultsSession = getResultSession(session);</span><br><span class="line"></span><br><span class="line">        <span class="type">ClientSession</span> <span class="variable">clientSession</span> <span class="operator">=</span> toClientSession(session, trinoServer.getBaseUrl(), <span class="keyword">new</span> <span class="title class_">Duration</span>(<span class="number">2</span>, TimeUnit.MINUTES));</span><br><span class="line">                                                             <span class="comment">//提交sql 会调用new StatementClientV1()  返回nextUri</span></span><br><span class="line">        <span class="keyword">try</span> (<span class="type">StatementClient</span> <span class="variable">client</span> <span class="operator">=</span> statementClientFactory.create(httpClient, session, clientSession, sql)) &#123;</span><br><span class="line">            <span class="keyword">while</span> (client.isRunning()) &#123;</span><br><span class="line">                resultsSession.addResults(client.currentStatusInfo(), client.currentData());</span><br><span class="line">                <span class="comment">//请求nextUri 获取执行状态、结果</span></span><br><span class="line">                client.advance();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>StatementClientV1    各种client预处理完成，执行sql，都会调用这里</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">StatementClientV1</span><span class="params">(Call.Factory httpCallFactory, ClientSession session, String query, Optional&lt;Set&lt;String&gt;&gt; clientCapabilities)</span></span><br><span class="line">&#123;</span><br><span class="line">   ......</span><br><span class="line">    <span class="comment">//创建查询请求 coordinator /v1/statement</span></span><br><span class="line">    <span class="type">Request</span> <span class="variable">request</span> <span class="operator">=</span> buildQueryRequest(session, query)</span><br><span class="line">    executeRequest(request, <span class="string">&quot;starting query&quot;</span>, OptionalLong.empty(), <span class="built_in">this</span>::isTransient);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">advance</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!isRunning()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//上次请求返回的nextUri</span></span><br><span class="line">        <span class="type">URI</span> <span class="variable">nextUri</span> <span class="operator">=</span> currentStatusInfo().getNextUri();</span><br><span class="line">        <span class="keyword">if</span> (nextUri == <span class="literal">null</span>) &#123;</span><br><span class="line">            state.compareAndSet(State.RUNNING, State.FINISHED);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">		</span><br><span class="line">        <span class="comment">//请求nextUri</span></span><br><span class="line">        <span class="type">Request</span> <span class="variable">request</span> <span class="operator">=</span> prepareRequest(HttpUrl.get(nextUri)).build();</span><br><span class="line">        <span class="keyword">return</span> executeRequest(request, <span class="string">&quot;fetching next&quot;</span>, OptionalLong.of(MAX_MATERIALIZED_JSON_RESPONSE_SIZE), (e) -&gt; <span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
                     
                 </div>
 
@@ -228,6 +249,14 @@
 
                 <div class="post-bottom-tags-and-share border-box">
                     <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/trino/">trino</a>
+                                    </li>
+                                
+                            </ul>
                         
                     </div>
                     <div>
@@ -240,15 +269,31 @@
                 
                     <div class="post-nav border-box">
                         
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2024/09/05/trion/"
+                                   title="trion"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">trion</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
                         
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
-                                   href="/2024/09/05/trino-client/"
-                                   title="trino-client"
+                                   href="/2024/09/05/trino-start/"
+                                   title="trino-start"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">trino-client</span>
+                                        <span class="post-nav-title-item text-ellipsis">trino-start</span>
                                         <span class="post-nav-item">Next posts</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">
