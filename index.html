@@ -161,15 +161,15 @@
                 <div class="home-post-item-bottom border-box">
                     
                     <h3 class="home-post-title border-box">
-                        <a href="/2024/09/05/trino-Stage/">
-                            trion-Stage
+                        <a href="/2024/09/05/trino-Partition/">
+                            trion-Overview
                         </a>
                     </h3>
 
                     <div class="home-post-content keep-markdown-body">
                         
-                            Trino源码学习 Stage
-
+                            Trino源码学习 分区管理
+1234NodePartitioningManager //管理node上的数据分区信息    NodeScheduler nodeScheduler    TypeOperators typeOperators    ...
                         
                     </div>
 
@@ -180,8 +180,8 @@
         
             <span class="meta-info-item border-box">
                 <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Wed Sep 11 2024 20:39:40 GMT+0800"
-                >2024-09-11 20:39:40</span>
+                                                                                data-updated="Fri Sep 13 2024 18:04:38 GMT+0800"
+                >2024-09-13 18:04:38</span>
             </span>
         
 
@@ -198,7 +198,7 @@
     </div>
 
     
-        <a class="home-read-more" href="/2024/09/05/trino-Stage/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+        <a class="home-read-more" href="/2024/09/05/trino-Partition/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
     
 </div>
 
@@ -212,15 +212,20 @@
                 <div class="home-post-item-bottom border-box">
                     
                     <h3 class="home-post-title border-box">
-                        <a href="/2024/09/05/trion-worker/">
-                            trion-worker
+                        <a href="/2024/09/05/trino-overview/">
+                            trion-Overview
                         </a>
                     </h3>
 
                     <div class="home-post-content keep-markdown-body">
                         
-                            Trino源码学习 Worker
+                            Trino源码学习 Overview
 
+Fragment：
+
+查询计划中的逻辑执行单元。
+表示查询计划树的一部分，它包含了执行特定操作的一组指令或步骤，比如扫描表、执行过滤、聚合等。
+通常，SQL查询会生成一个根 fragment 以及零个或多个子 ...
                         
                     </div>
 
@@ -231,8 +236,8 @@
         
             <span class="meta-info-item border-box">
                 <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Mon Sep 09 2024 20:15:54 GMT+0800"
-                >2024-09-09 20:15:54</span>
+                                                                                data-updated="Fri Sep 13 2024 16:42:17 GMT+0800"
+                >2024-09-13 16:42:17</span>
             </span>
         
 
@@ -249,7 +254,7 @@
     </div>
 
     
-        <a class="home-read-more" href="/2024/09/05/trion-worker/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+        <a class="home-read-more" href="/2024/09/05/trino-overview/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
     
 </div>
 
@@ -339,8 +344,8 @@ note over QueuedStatementResour...
         
             <span class="meta-info-item border-box">
                 <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Wed Sep 11 2024 22:49:06 GMT+0800"
-                >2024-09-11 22:49:06</span>
+                                                                                data-updated="Fri Sep 13 2024 16:30:49 GMT+0800"
+                >2024-09-13 16:30:49</span>
             </span>
         
 
@@ -371,18 +376,15 @@ note over QueuedStatementResour...
                 <div class="home-post-item-bottom border-box">
                     
                     <h3 class="home-post-title border-box">
-                        <a href="/2024/09/05/trino-start/">
-                            trino-start
+                        <a href="/2024/09/05/trion-worker/">
+                            trion-worker
                         </a>
                     </h3>
 
                     <div class="home-post-content keep-markdown-body">
                         
-                            Trino源码学习 Start
-开始学习Trion源码，从启动开始，跟随官方文档操作，启动TpchQueryRunner
-启动流程
-sequenceDiagram
-    TpchQueryRunner->>DistributedQueryRunne...
+                            Trino源码学习 Worker
+
                         
                     </div>
 
@@ -393,8 +395,8 @@ sequenceDiagram
         
             <span class="meta-info-item border-box">
                 <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Fri Sep 06 2024 17:01:11 GMT+0800"
-                >2024-09-06 17:01:11</span>
+                                                                                data-updated="Mon Sep 09 2024 20:15:54 GMT+0800"
+                >2024-09-09 20:15:54</span>
             </span>
         
 
@@ -411,7 +413,58 @@ sequenceDiagram
     </div>
 
     
-        <a class="home-read-more" href="/2024/09/05/trino-start/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+        <a class="home-read-more" href="/2024/09/05/trion-worker/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/2024/09/05/trino-Stage/">
+                            trion-Stage
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            Trino源码学习 Stage
+
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Wed Sep 11 2024 20:39:40 GMT+0800"
+                >2024-09-11 20:39:40</span>
+            </span>
+        
+
+        
+
+        
+
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/2024/09/05/trino-Stage/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
     
 </div>
 
@@ -466,6 +519,60 @@ St...
 
     
         <a class="home-read-more" href="/2024/09/05/trino-client/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/2024/09/05/trino-start/">
+                            trino-start
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            Trino源码学习 Start
+开始学习Trion源码，从启动开始，跟随官方文档操作，启动TpchQueryRunner
+启动流程
+sequenceDiagram
+    TpchQueryRunner->>DistributedQueryRunne...
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Fri Sep 06 2024 17:01:11 GMT+0800"
+                >2024-09-06 17:01:11</span>
+            </span>
+        
+
+        
+
+        
+
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/2024/09/05/trino-start/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
     
 </div>
 

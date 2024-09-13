@@ -9,7 +9,7 @@
     
     <title>
         
-            Tag: trino |
+            trion-Overview |
         
         Keep Theme
     </title>
@@ -152,95 +152,185 @@
             <div class="main-content border-box">
                 
 
-                    <div class="fade-in-down-animation">
-    <div class="tag-archive-container border-box">
-        <div class="tag-name"><i class="fas fa-hashtag"></i>&nbsp;trino
-        </div>
-        <div class="tag-post-list">
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
             
-<div class="archive-list-container border-box">
-    
-        <section class="archive-item border-box">
-            <div class="archive-item-header border-box">
-                <span class="archive-year">2024</span>
-            </div>
-            <ul class="archive-item-body border-box">
+
+            <div class="post-content-bottom border-box">
                 
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">09-05</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/09/05/trino-Partition/"
-                        >trion-Overview</a>
-                    </li>
+                    <div class="post-title">
+                        trion-Overview
+                    </div>
                 
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">09-05</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/09/05/trino-overview/"
-                        >trion-Overview</a>
-                    </li>
+
                 
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">09-05</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/09/05/trino-QueryStateMachine/"
-                        >trion-QueryStateMachine</a>
-                    </li>
-                
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">09-05</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/09/05/trion-query-create/"
-                        >trion-query-create</a>
-                    </li>
-                
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">09-05</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/09/05/trion-worker/"
-                        >trion-worker</a>
-                    </li>
-                
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">09-05</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/09/05/trino-Stage/"
-                        >trion-Stage</a>
-                    </li>
-                
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">09-05</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/09/05/trino-client/"
-                        >trino-client</a>
-                    </li>
-                
-                    <li class="post-item border-box">
-                        <span class="starting-point border-box flex-center"></span>
-                        <span class="post-date border-box">09-05</span>
-                        <a class="post-title border-box text-ellipsis"
-                           href="/2024/09/05/trino-start/"
-                        >trino-start</a>
-                    </li>
-                
-            </ul>
-        </section>
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Keep Team</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-09-05 11:30:47</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Fri Sep 13 2024 16:42:17 GMT+0800">2024-09-13 16:42:17</span>
+            </span>
+        
+
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/trino/">trino</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
     
 </div>
 
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1>Trino源码学习 Overview</h1>
+<ol>
+<li><strong>Fragment</strong>：
+<ul>
+<li>查询计划中的逻辑执行单元。</li>
+<li>表示查询计划树的一部分，它包含了执行特定操作的一组指令或步骤，比如扫描表、执行过滤、聚合等。</li>
+<li>通常，SQL查询会生成一个根 fragment 以及零个或多个子 fragment，根 fragment 负责最终结果的聚合。</li>
+</ul>
+</li>
+<li><strong>Stage</strong>：
+<ul>
+<li>每个 <strong>stage 对应于一个 fragment</strong>，并负责处理该 fragment 的实际执行。</li>
+<li>执行层面上对查询计划的进一步物理划分。</li>
+<li>Stage 之间有父子关系，形成一个阶段执行树（stages tree），其中叶子 stage 直接与数据源进行交互，而根 stage 通常负责最后的结果收集和输出。</li>
+</ul>
+</li>
+<li><strong>Task</strong>：
+<ul>
+<li>Stage 在集群内节点上的物理执行单位。</li>
+<li>当 stage 被启动时，它会被分解为多个 task，并在不同的工作节点上并行执行。</li>
+<li>Task 是将实际的数据处理工作分派给集群中的节点的方式，每个 task 承担了处理数据的一部分。</li>
+</ul>
+</li>
+</ol>
+
+                    
+                </div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/trino/">trino</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2024/09/05/trino-Partition/"
+                                   title="trion-Overview"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">trion-Overview</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/09/05/trino-QueryStateMachine/"
+                                   title="trion-QueryStateMachine"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">trion-QueryStateMachine</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
         </div>
+
+        
     </div>
-    
-
-
-
 </div>
 
 
@@ -273,6 +363,27 @@
     </div>
 
     <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
     
 
     <!-- side tools -->
@@ -338,7 +449,6 @@
 
 
 
-
 <!-- common js -->
 
 <script src="/js/utils.js"></script>
@@ -367,6 +477,20 @@
     
 
     <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
     
 
     <!-- categories page -->
