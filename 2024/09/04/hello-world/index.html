@@ -9,8 +9,6 @@
     
     <title>
         
-            Hello World |
-        
         Keep Theme
     </title>
     
@@ -161,7 +159,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        Hello World
+                        
                     </div>
                 
 
@@ -194,7 +192,7 @@
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Wed Oct 09 2024 12:04:30 GMT+0800">2024-10-09 12:04:30</span>
+                <span class="datetime" data-updated="Thu Oct 10 2024 16:32:30 GMT+0800">2024-10-10 16:32:30</span>
             </span>
         
 
@@ -220,30 +218,16 @@
                     
 
                     
-                         <p>Welcome to <a class="link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link" target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link" target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link" target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a class="link" target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a class="link" target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a class="link" target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a class="link" target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment<i class="fas fa-external-link-alt"></i></a></p>
-<pre class="mermaid">sequenceDiagram
-note over 客户版本:1创建
-客户版本->>主线版本:2关联
-note over 交付需求:3创建
-交付需求->>客户版本:4关联
-TLM需求\PPM需求-->PR:关联
-PR-->CCB:关联
-交付需求->>TLM需求\PPM需求:5关联
-TLM需求\PPM需求->>交付需求:6完成
-note over 交付需求:7完成</pre>
+                         <pre class="mermaid">sequenceDiagram
+note over 客户版本:1.创建
+note over 交付需求:2.创建
+交付需求->>客户版本:3.关联
+交付需求->>PPM\TLM需求:4.关联
+PR->>交付需求:5.选择
+PR-->>交付需求:6.PR完成时更新交付需求状态为：已实现
+note over PR:7.IPLP提工单，关联客户版本  模块commitID提交到mfSystem  <br> 相当于pr合入了交付分支  交付需求完成 <br> 目前如何实现 需要讨论
+note over 交付需求: 当7完成时，交付需求完成
+交付需求-->>客户版本:8.交付需求都完成时，客户版本完成</pre>
 
                     
                 </div>
