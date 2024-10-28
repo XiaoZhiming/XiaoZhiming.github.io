@@ -192,7 +192,7 @@
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Thu Oct 10 2024 16:32:30 GMT+0800">2024-10-10 16:32:30</span>
+                <span class="datetime" data-updated="Wed Oct 16 2024 15:13:45 GMT+0800">2024-10-16 15:13:45</span>
             </span>
         
 
@@ -220,14 +220,16 @@
                     
                          <pre class="mermaid">sequenceDiagram
 note over 客户版本:1.创建
-note over 交付需求:2.创建
-交付需求->>客户版本:3.关联
-交付需求->>PPM\TLM需求:4.关联
-PR->>交付需求:5.选择
-PR-->>交付需求:6.PR完成时更新交付需求状态为：已实现
-note over PR:7.IPLP提工单，关联客户版本  模块commitID提交到mfSystem  <br> 相当于pr合入了交付分支  交付需求完成 <br> 目前如何实现 需要讨论
-note over 交付需求: 当7完成时，交付需求完成
-交付需求-->>客户版本:8.交付需求都完成时，客户版本完成</pre>
+note over 客户原始需求/交付需求:2.创建
+客户原始需求/交付需求->>客户版本:3.关联
+客户原始需求/交付需求->>PPM\TLM需求:4.关联
+note over 客户项目-版本管理:5.创建
+客户项目-版本管理->>客户版本:6.关联
+客户项目-版本管理->>客户原始需求/交付需求:7.关联
+
+note over 客户项目-版本管理:PR->测试->完成
+note over 客户原始需求/交付需求:客户项目-版本管理完成后<br>客户原始需求/交付需求的准出结论后<br>客户原始需求/交付需求完成
+note over 客户版本:客户版本下的客户原始需求/交付需求都完成时<br>客户版本完成</pre>
 
                     
                 </div>

@@ -9,7 +9,7 @@
     
     <title>
         
-            trion-worker |
+            trino-udf |
         
         Keep Theme
     </title>
@@ -161,7 +161,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        trion-worker
+                        trino-udf
                     </div>
                 
 
@@ -189,12 +189,12 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2024-09-05 11:30:47</span>
+                <span class="datetime">2024-10-28 11:19:30</span>
             </span>
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Mon Sep 09 2024 20:15:54 GMT+0800">2024-09-09 20:15:54</span>
+                <span class="datetime" data-updated="Mon Oct 28 2024 23:28:57 GMT+0800">2024-10-28 23:28:57</span>
             </span>
         
 
@@ -229,7 +229,24 @@
                     
 
                     
-                         <h1>Trino源码学习 Worker</h1>
+                         <h1>Trino UDF</h1>
+<p>需要启动时注册，不能热加载</p>
+<h2 id="分类">分类</h2>
+<ul>
+<li>标量函数</li>
+<li>聚合函数</li>
+<li>窗口函数</li>
+</ul>
+<h3 id="标量函数">标量函数</h3>
+<h3 id="聚合函数">聚合函数</h3>
+<h3 id="窗口函数">窗口函数</h3>
+<h2 id="注册">注册</h2>
+<p>所有函数的元数据维护在 GlobalFunctionCatalog.functions</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//GlobalFunctionCatalog 添加函数    </span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">addFunctions</span><span class="params">(FunctionBundle functionBundle)</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//PluginManager  加载插件函数</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">installPluginInternal</span><span class="params">(Plugin plugin)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!functions.isEmpty()) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;Registering functions from %s&quot;</span>, plugin.getClass().getSimpleName());</span><br><span class="line">            <span class="type">InternalFunctionBundleBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> InternalFunctionBundle.builder();</span><br><span class="line">            functions.forEach(builder::functions);</span><br><span class="line">            globalFunctionCatalog.addFunctions(builder.build());</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment">//ServerMainModule（airlift module）启动时 注册内置函数</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">setup</span><span class="params">(Binder binder)</span>&#123;</span><br><span class="line">        ......</span><br><span class="line">    	binder.bind(RegisterFunctionBundles.class).asEagerSingleton();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">RegisterFunctionBundles</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="meta">@Inject</span></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">RegisterFunctionBundles</span><span class="params">(GlobalFunctionCatalog globalFunctionCatalog, Set&lt;FunctionBundle&gt; functionBundles)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (FunctionBundle functionBundle : functionBundles) &#123;</span><br><span class="line">                globalFunctionCatalog.addFunctions(functionBundle);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//系统内置函数</span></span><br><span class="line">    <span class="meta">@ProvidesIntoSet</span></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> FunctionBundle <span class="title function_">systemFunctionBundle</span><span class="params">(FeaturesConfig featuresConfig, TypeOperators typeOperators, BlockTypeOperators blockTypeOperators, NodeVersion nodeVersion)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> SystemFunctionBundle.create(featuresConfig, typeOperators, blockTypeOperators, nodeVersion);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//封装系统内置函数的类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">SystemFunctionBundle</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">SystemFunctionBundle</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> FunctionBundle <span class="title function_">create</span><span class="params">(FeaturesConfig featuresConfig, TypeOperators typeOperators, BlockTypeOperators blockTypeOperators, NodeVersion nodeVersion)</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="查找">查找</h2>
+<p>MetadataManager.functions就是上面注册的所有函数，还弄了个functionResolver提供查找方法</p>
+<p>已经load过的函数，会放在cache中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> ResolvedFunction <span class="title function_">resolveBuiltinFunction</span><span class="params">(String name, List&lt;TypeSignatureProvider&gt; parameterTypes)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> functionResolver.resolveBuiltinFunction(name, parameterTypes);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//一般操作符</span></span><br><span class="line"><span class="keyword">public</span> ResolvedFunction <span class="title function_">resolveOperator</span><span class="params">(OperatorType operatorType, List&lt;? extends Type&gt; argumentTypes)</span></span><br><span class="line">        <span class="keyword">throws</span> OperatorNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> functionResolver.resolveOperator(operatorType, argumentTypes);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//类型转换操作符</span></span><br><span class="line"><span class="keyword">public</span> ResolvedFunction <span class="title function_">getCoercion</span><span class="params">(OperatorType operatorType, Type fromType, Type toType)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> functionResolver.resolveCoercion(operatorType, fromType, toType);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
                     
                 </div>
@@ -258,31 +275,15 @@
                 
                     <div class="post-nav border-box">
                         
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2024/09/05/trion-scheduler/"
-                                   title="trion-scheduler"
-                                >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">trion-scheduler</span>
-                                        <span class="post-nav-item">Prev posts</span>
-                                    </span>
-                                </a>
-                            </div>
-                        
                         
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
-                                   href="/2024/09/05/trino-client/"
-                                   title="trino-client"
+                                   href="/2024/09/05/trino-Stage/"
+                                   title="trion-Stage"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">trino-client</span>
+                                        <span class="post-nav-title-item text-ellipsis">trion-Stage</span>
                                         <span class="post-nav-item">Next posts</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">

@@ -161,6 +161,60 @@
                 <div class="home-post-item-bottom border-box">
                     
                     <h3 class="home-post-title border-box">
+                        <a href="/2024/09/05/trion-scheduler/">
+                            trion-scheduler
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            Trino 调度
+调度就是按Fragment顺序，调度SqlStage(Fragment) 的 createTask方法
+调度逻辑在PipelinedQueryScheduler中
+sequenceDiagram
+PipelinedQuerySche...
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Wed Oct 16 2024 17:50:06 GMT+0800"
+                >2024-10-16 17:50:06</span>
+            </span>
+        
+
+        
+
+        
+
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/2024/09/05/trion-scheduler/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
                         <a href="/2024/09/05/trino-client/">
                             trino-client
                         </a>
@@ -278,11 +332,10 @@ sequenceDiagram
                         
                             sequenceDiagram
 note over 客户版本:1.创建
-note over 交付需求:2.创建
-交付需求->>客户版本:3.关联
-交付需求->>PPM\TLM需求:4.关联
-PR->>交付需求:5.选择
-PR-->>交付需求:6.PR...
+note over 客户原始需求/交付需求:2.创建
+客户原始需求/交付需求->>客户版本:3.关联
+客户原始需求/交付需求->>PPM\TLM需求:4.关联
+note over...
                         
                     </div>
 
@@ -293,8 +346,8 @@ PR-->>交付需求:6.PR...
         
             <span class="meta-info-item border-box">
                 <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Thu Oct 10 2024 16:32:30 GMT+0800"
-                >2024-10-10 16:32:30</span>
+                                                                                data-updated="Wed Oct 16 2024 15:13:45 GMT+0800"
+                >2024-10-16 15:13:45</span>
             </span>
         
 
